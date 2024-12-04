@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-quicksand: "Quicksand", sans-serif;
+  --color-primary: #40e0d0;
+  --color-secondary: #4169e1;
+  --color-dark: #1a2c38;
+  --color-border: #2a4858;
+}
+
+/* Smooth Transitions */
+* {
+  transition: background-color 0.2s, border-color 0.2s, opacity 0.2s;
+  font-family: var(--font-quicksand);
+  font-weight: bold;
+}
+
+/* Custom Background */
+.bg-radial-gradient {
+  background: radial-gradient(
+    circle at center,
+    rgba(15, 25, 34, 0) 0%,
+    rgba(15, 25, 34, 0.8) 50%,
+    rgba(15, 25, 34, 1) 100%
+  );
+}
+
+/* Optimized Animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes float-delayed {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+}
+
+.animate-float {
+  animation: float 20s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 20s ease-in-out infinite;
+  animation-delay: -10s;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-pulse-delayed {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: -2s;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a2c38;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a4858;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4fc3f7;
+}
+
+/* Override Wallet Button styles */
+.wallet-adapter-button {
+  background: linear-gradient(
+    135deg,
+    rgba(64, 224, 208, 0.2),
+    rgba(65, 105, 225, 0.2)
+  ) !important;
+  color: #40e0d0 !important;
+  padding: 8px 16px !important;
+  border-radius: 0.5rem !important;
+  font-weight: 500 !important;
+  border: 1px solid rgba(64, 224, 208, 0.3) !important;
+  transition: all 0.2s !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+
+.wallet-adapter-button:hover,
+.wallet-adapter-button:not([disabled]):hover {
+  background: linear-gradient(
+    135deg,
+    rgba(64, 224, 208, 0.3),
+    rgba(65, 105, 225, 0.3)
+  ) !important;
+}
+
+/* Override Wallet Modal styles */
+.wallet-adapter-modal-wrapper {
+  background-color: #1a2c38 !important;
+  border: 1px solid #2a4858 !important;
+  border-radius: 1rem !important;
+}
+
+.wallet-adapter-modal-button-close,
+.wallet-adapter-modal-title,
+.wallet-adapter-modal-list-more {
+  color: #4fc3f7 !important;
+}
+
+.wallet-adapter-modal-list li {
+  background-color: rgba(30, 136, 229, 0.2) !important;
+  border: 1px solid #2a4858 !important;
+}
+
+.wallet-adapter-modal-list li:hover {
+  background-color: rgba(30, 136, 229, 0.3) !important;
+}
+
+.wallet-adapter-modal-list-more-icon-rotate {
+  background-color: rgba(30, 136, 229, 0.2) !important;
+}
+
+/* Remove default wallet button icon */
+.wallet-adapter-button-start-icon {
+  display: none !important;
+}
+
+@keyframes network-pulse {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+.animate-network {
+  animation: network-pulse 4s ease-in-out infinite;
+}
+
+.animate-network-delayed {
+  animation: network-pulse 4s ease-in-out infinite;
+  animation-delay: -2s;
+}

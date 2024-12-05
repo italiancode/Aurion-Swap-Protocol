@@ -50,7 +50,7 @@ export function Notice({ message, isVisible: initialIsVisible, onClose }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="fixed top-16 left-4 right-4 z-[100] flex justify-start pointer-events-none"
+          className="fixed top-16 mt-5 left-4 right-4 z-[100] flex justify-start pointer-events-none"
           onMouseEnter={handleMouseEnter} // Add mouse enter event
           onMouseLeave={handleMouseLeave} // Add mouse leave event
         >

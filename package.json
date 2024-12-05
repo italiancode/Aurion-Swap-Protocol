@@ -35,5 +35,10 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.15",
     "typescript": "^5"
-  }
+  },
+  "description": "Aurion Swap is a decentralized token swapping platform built on the Solana blockchain. It enables users to easily swap tokens with a user-friendly interface, real-time data, and wallet integration. The project leverages the speed and low transaction costs of Solana, providing a seamless experience for users looking to manage their crypto assets.",
+  "main": " ",
+  "repository": "https://github.com/italiancode/Aurion-Swap-Protocol",
+  "author": "italiancode <italianloader@gmail.com>",
+  "license": "MIT"
 }

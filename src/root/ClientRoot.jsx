@@ -1,13 +1,16 @@
-'use client';
+"use client";
 
-import { ClientWalletProvider } from "../Wallet/ClientWalletProvider";
-import { ClientLayout } from "../components/layout/ClientLayout";
-import '@solana/wallet-adapter-react-ui/styles.css';
+import { ClientWalletProvider } from "../wallet/ClientWalletProvider";
+import { ClientLayout } from "../components/ClientLayout";
+import "@solana/wallet-adapter-react-ui/styles.css";
+import { TokenProvider } from "@/context/TokenContext";
 
 export function ClientRoot({ children }) {
   return (
     <ClientWalletProvider>
-      <ClientLayout>{children}</ClientLayout>
+      <TokenProvider>
+        <ClientLayout>{children}</ClientLayout>
+      </TokenProvider>
     </ClientWalletProvider>
   );
-} 
+}

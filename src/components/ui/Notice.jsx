@@ -56,7 +56,7 @@ export function Notice({ message, isVisible: initialIsVisible, onClose }) {
         >
           <div className="max-w-fit w-auto pointer-events-auto">
             <div className="bg-[#1a2c38] bg-gradient-to-r from-[#40E0D0]/20 to-[#4169E1]/20 backdrop-blur-md border border-[#40E0D0]/30 rounded-lg shadow-lg overflow-hidden">
-              <div className="flex items-center gap-3 p-4">
+              <div className="flex items-center gap-3 p-2">
                 <div className="w-2 h-2 rounded-full bg-[#40E0D0] shrink-0" />
                 <span className="text-[#4fc3f7] text-sm font-medium flex-grow pr-2">
                   {message}

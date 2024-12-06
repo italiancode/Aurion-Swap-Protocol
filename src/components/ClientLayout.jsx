@@ -2,34 +2,41 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar";
-import WalletSidebarToggle from "./WalletSidebarToggle";
-import { BackgroundEffects } from "../effects/BackgroundEffects";
-import { ContentEffects } from "../effects/ContentEffects";
-import Header from "./Header";
-import Footer from "./Footer";
+import Sidebar from "./layout/Sidebar";
+import { BackgroundEffects } from "./effects/BackgroundEffects";
+import Header from "./layout/Header";
+import Footer from "./layout/Footer";
 
 export function ClientLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [currentBreakpoint, setCurrentBreakpoint] = useState("base");
+  const [headerHeight, setHeaderHeight] = useState(64);
 
   useEffect(() => {
     setMounted(true);
     setCurrentBreakpoint(getBreakpoint());
+    const calculateHeaderHeight = () => {
+      const width = window.innerWidth;
+      if (width < 640) return 56; // For mobile
+      if (width < 1024) return 64; // For tablet
+      return 72; // For desktop
+    };
 
     const handleResize = () => {
       setCurrentBreakpoint(getBreakpoint());
+      setHeaderHeight(calculateHeaderHeight()); // Set height based on window size
     };
 
     window.addEventListener("resize", handleResize);
+    handleResize(); // Set initial height
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const sidebarWidth =
     {
       base: "100%",
-      sm: "320px",
+      sm: "360px",
       md: "384px",
       lg: "448px",
       xl: "512px",
@@ -37,9 +44,15 @@ export function ClientLayout({ children }) {
 
   const layout = (
     <div className="flex flex-col min-h-screen relative overflow-hidden">
-      <Header />
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+      />
 
-      <div className="flex-grow flex relative">
+      <div
+        className="flex-grow flex relative sm:overflow-x-auto"
+        style={{ marginTop: `${headerHeight}px` }}
+      >
         <motion.div
           className="flex-grow relative"
           animate={{
@@ -83,12 +96,7 @@ export function ClientLayout({ children }) {
           />
         </motion.div>
       </div>
-
-      <Footer />
-      <WalletSidebarToggle
-        isOpen={isSidebarOpen}
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      />
+      {/* <Footer /> */}
     </div>
   );
 

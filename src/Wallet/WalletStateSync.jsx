@@ -52,7 +52,11 @@ const WalletStateSync = () => {
   return (
     <>
       {isNoticeVisible && (
-        <Notice message={noticeMessage} isVisible={isNoticeVisible} onClose={handleCloseNotice} />
+        <Notice
+          message={noticeMessage}
+          isVisible={isNoticeVisible}
+          onClose={handleCloseNotice}
+        />
       )}
     </>
   );

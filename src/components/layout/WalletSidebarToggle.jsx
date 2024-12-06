@@ -5,7 +5,7 @@ function WalletSidebarToggle({ isOpen, onClick }) {
   return (
     <motion.button
       onClick={onClick}
-      className={`fixed top-16 mt-2 sm:mt-6 right-4 z-[10] bg-[#1a2c38] border border-[#2a4858] rounded-xl p-2 shadow-lg hover:bg-[#1e88e5]/20 transition-colors ${
+      className={`z-[10] bg-[#1a2c38] border border-[#2a4858] rounded-xl p-2 shadow-lg hover:bg-[#1e88e5]/20 transition-colors ${
         isOpen ? "opacity-0" : "opacity-100"
       }`}
       whileHover={{ scale: 1.05 }}

@@ -2,9 +2,10 @@ import { Connection, ParsedAccountData, PublicKey } from "@solana/web3.js";
 import { devLog } from "./logging";
 import { withRetry } from "./retry";
 import { useWalletState } from "../hooks/useWalletState";
+import { waitForWalletConnection } from "./connection/walletConnection";
 // import {  } from "./retry/withRetry";
 
-const connection = new Connection(
+export const connection = new Connection(
   `${process.env.NEXT_PUBLIC_NODE_RPC_URL}/apikey/${process.env.NEXT_PUBLIC_NODE_API_KEY}`,
   "confirmed"
 );
@@ -22,18 +23,6 @@ interface TokenMetadata {
   decimals: number;
   supply: string;
 }
-
-const waitForWalletConnection = async (
-  maxAttempts = 10,
-  delayMs = 1000
-): Promise<string | null> => {
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const walletAddress = useWalletState.getState().getConnectedPublicKey();
-    if (walletAddress) return walletAddress;
-    await new Promise((resolve) => setTimeout(resolve, delayMs));
-  }
-  return null;
-};
 
 const getTokenSupply = async (address: string) => {
   const supply = await withRetry(() =>

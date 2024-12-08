@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Send, ReceiptIcon as Receive, TrendingUp } from "lucide-react";
-import ActionButton from "./ActionButton";
+import ActionButton from "../../ui/ActionButton";
 import TokensContent from "./TokensContent";
 // import { useTokenContext } from "@/context/TokenContext";
 

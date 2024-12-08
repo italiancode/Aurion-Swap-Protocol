@@ -2,25 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
 
-export function Notice({ message, isVisible: initialIsVisible, onClose }) {
-  const [isVisible, setIsVisible] = useState(initialIsVisible);
+export function Notice({ message, onClose }) {
+  const [isVisible, setIsVisible] = useState(true);
   const [timer, setTimer] = useState(null);
 
   useEffect(() => {
-    setIsVisible(initialIsVisible);
+    const newTimer = setTimeout(() => {
+      setIsVisible(false);
+      onClose();
+    }, 5000); // Auto-hide after 5 seconds
+    setTimer(newTimer);
 
-    if (initialIsVisible) {
-      const newTimer = setTimeout(() => {
-        setIsVisible(false);
-        onClose();
-      }, 5000);
-      setTimer(newTimer);
-
-      return () => clearTimeout(newTimer);
-    }
-  }, [initialIsVisible, onClose]);
+    return () => clearTimeout(newTimer);
+  }, [onClose]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -50,7 +46,7 @@ export function Notice({ message, isVisible: initialIsVisible, onClose }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="fixed top-16 mt-5 left-4 right-4 z-[100] flex justify-start pointer-events-none"
+          className="fixed top-16 mt-2 sm:mt-5 left-4 right-4 inset-0 z-[10000] flex items-start justify-start bg-black bg-opacity-0 pointer-events-none"
           onMouseEnter={handleMouseEnter} // Add mouse enter event
           onMouseLeave={handleMouseLeave} // Add mouse leave event
         >
@@ -76,4 +72,3 @@ export function Notice({ message, isVisible: initialIsVisible, onClose }) {
     </AnimatePresence>
   );
 }
-

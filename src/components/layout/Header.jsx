@@ -15,18 +15,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { Notice } from "../ui/Notice";
 import { motion, AnimatePresence } from "framer-motion";
+import { WalletMultiButtonDynamic } from "@/utils/connection/walletConnection";
 
 require("@solana/wallet-adapter-react-ui/styles.css");
-
-// Dynamically import the WalletMultiButton with no SSR
-const WalletMultiButtonDynamic = dynamic(
-  async () =>
-    (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
-  { ssr: false }
-);
 
 export default function Header({ isSidebarOpen, toggleSidebar }) {
   const { publicKey, disconnect } = useWallet();
@@ -78,11 +71,6 @@ export default function Header({ isSidebarOpen, toggleSidebar }) {
 
   return (
     <>
-      <Notice
-        message="Address copied to clipboard!"
-        isVisible={showToast}
-        onClose={() => setShowToast(false)}
-      />
       <div
         className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 px-0 w-full"
         style={{ height: `${headerHeight}px` }}

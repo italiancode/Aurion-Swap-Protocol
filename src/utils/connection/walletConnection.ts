@@ -1,4 +1,7 @@
 import { useWalletState } from "../../hooks/useWalletState";
+import dynamic from "next/dynamic";
+
+require("@solana/wallet-adapter-react-ui/styles.css");
 
 export const waitForWalletConnection = async (
   maxAttempts = 10,
@@ -11,3 +14,10 @@ export const waitForWalletConnection = async (
   }
   return null;
 };
+
+// Dynamically import the WalletMultiButton with no SSR
+export const WalletMultiButtonDynamic = dynamic(
+  async () =>
+    (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+  { ssr: false }
+);

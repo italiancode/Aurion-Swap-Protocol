@@ -19,6 +19,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useNotification } from "@/context/NotificationContext";
+import { WalletMultiButtonDynamic } from "@/utils/connection/walletConnection";
 
 type HeaderProps = {
   publicKey: string | null;
@@ -39,10 +41,12 @@ export default function WalletHeader({
   headerHeight,
   walletDisconnect,
 }: HeaderProps) {
-  const { disconnect: disconnectWallet } = useWallet();
+  const { disconnect: disconnectWallet, connect } = useWallet();
   const [displayAddress, setDisplayAddress] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const { showNotification } = useNotification();
 
   const toggleAddressExpansion = () => {
     setIsExpanded(!isExpanded);
@@ -82,7 +86,8 @@ export default function WalletHeader({
   const handleCopyAddress = () => {
     if (publicKey) {
       navigator.clipboard.writeText(publicKey.toString());
-      alert("Address copied to clipboard!");
+      console.log("Copying address and showing notification");
+      showNotification("Address copied to clipboard!");
     }
   };
 
@@ -98,16 +103,15 @@ export default function WalletHeader({
   return (
     <div className="" ref={containerRef}>
       <motion.div
-        className="shadow-md fixed top-0 right-0 w-[90%] sm:w-[360px] md:w-[384px] lg:w-[448px] xl:w-[512px] bg-gradient-to-br from-[#1a2c38] to-[#0d1b24] shadow-md"
+        className="shadow-md fixed top-0 right-0 w-[100%] sm:w-[360px] md:w-[384px] lg:w-[448px] xl:w-[512px] bg-gradient-to-br from-[#1a2c38] to-[#0d1b24] shadow-md"
         style={{ height: `${headerHeight}px` }}
       >
         <div className="flex w-full h-full items-center">
           <div className="flex flex-row w-full items-center justify-between gap-4 px-4 h-full">
             <div className="flex items-center gap-4 w-auto">
-              <div className="flex items-center bg-gray-800 shadow-md border border-[#2a4858] text-[#4fc3f7] rounded-md p-2 gap-2 flex-grow-0">
-                <Wallet className="h-5 w-5" />
-
-                {publicKey && (
+              {publicKey ? (
+                <div className="flex items-center bg-gray-800 shadow-md border border-[#2a4858] text-[#4fc3f7] rounded-md p-2 gap-2 flex-grow-0">
+                  <Wallet className="h-5 w-5" />
                   <div className="flex items-center ">
                     <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse mr-2" />
                     <motion.button
@@ -129,8 +133,12 @@ export default function WalletHeader({
                       />
                     </motion.button>
                   </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div>
+                  <WalletMultiButtonDynamic />
+                </div>
+              )}
             </div>
 
             <div className="flex items-center gap-2">
@@ -185,9 +193,7 @@ export default function WalletHeader({
                       <X className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    Close
-                  </TooltipContent>
+                  <TooltipContent>Close</TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
@@ -211,7 +217,7 @@ export default function WalletHeader({
             ) : (
               <div className="flex items-center gap-2 text-[#4fc3f7] p-2">
                 <View className="h-5 w-5" />
-                <span>Overview</span>
+                <span>Wallet</span>
               </div>
             )}
           </div>

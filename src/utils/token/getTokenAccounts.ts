@@ -1,7 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token"; // Ensure this is imported
 import { waitForWalletConnection } from "../connection/walletConnection"; // Adjust the import path as necessary
-import { connection } from "../connection/connection"; // Import the connection
+import { getConnection } from "../connection/connection"; // Import getConnection
 import { devLog } from "../logging";
 import { withRetry } from "../retry";
 
@@ -14,14 +14,15 @@ export const getTokenAccounts = async (): Promise<any[]> => {
 
   const walletPublicKey = new PublicKey(publicKey);
 
+  // const connection = await getConnection();
+
   try {
     // Fetch SOL balance
-    const solBalance = await withRetry(() =>
+    const solBalance = await getConnection((connection) =>
       connection.getBalance(walletPublicKey)
     );
 
-    // Fetch token accounts
-    const tokenAccounts = await withRetry(() =>
+    const tokenAccounts = await getConnection((connection) =>
       connection.getParsedTokenAccountsByOwner(walletPublicKey, {
         programId: TOKEN_PROGRAM_ID,
       })

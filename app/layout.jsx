@@ -2,6 +2,8 @@ import { Cinzel, Quicksand } from "next/font/google";
 import { ClientRoot } from "@/root/ClientRoot";
 import "./globals.css";
 
+// import "@/utils/connection/connection";
+
 const cinzel = Cinzel({
   subsets: ["latin"],
   display: "swap",

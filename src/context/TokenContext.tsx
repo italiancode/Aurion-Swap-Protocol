@@ -2,11 +2,13 @@ import { getTokenAccounts } from "@/utils/token/getTokenAccounts";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface TokenContextType {
-  tokenData: any[]; // Adjust the type as necessary
+  tokenData: any[];
   refreshTokenData: () => Promise<void>;
-  totalAccounts: number; // Add totalTokens to the context type
+  totalAccounts: number;
   activeTokens: any[];
   inactiveTokens: any[];
+  isLoading: boolean;
+  error: Error | null;
 }
 
 const TokenContext = createContext<TokenContextType | undefined>(undefined);
@@ -14,14 +16,22 @@ const TokenContext = createContext<TokenContextType | undefined>(undefined);
 export const TokenProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [tokenData, setTokenData] = useState<any[]>([]); // Adjust the type as necessary
+  const [tokenData, setTokenData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const fetchTokenData = async () => {
     try {
+      setIsLoading(true);
+      setError(null);
       const data = await getTokenAccounts();
-      setTokenData(data);
+      setTokenData(data || []); // Ensure we always set an array
     } catch (error) {
       console.error("Error fetching token addresses:", error);
+      setError(error instanceof Error ? error : new Error('Failed to fetch token data'));
+      setTokenData([]); // Reset to empty array on error
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -30,18 +40,16 @@ export const TokenProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    fetchTokenData(); // Fetch token data on initial load
+    fetchTokenData();
   }, []);
 
-  // Calculate total tokens
-  const totalAccounts = tokenData.length; // Assuming each entry in tokenData represents a token
-
-  // Filter active and inactive accounts
+  // Calculate derived values
+  const totalAccounts = tokenData.length;
   const activeTokens = tokenData.filter(
-    (token) => token.tokenAmount > 0 || token.tokenUiAmount > 0
+    (token) => token?.tokenAmount > 0 || token?.tokenUiAmount > 0
   );
   const inactiveTokens = tokenData.filter(
-    (token) => token.tokenAmount === "0" && token.tokenUiAmount === 0
+    (token) => token?.tokenAmount === "0" && token?.tokenUiAmount === 0
   );
 
   return (
@@ -52,6 +60,8 @@ export const TokenProvider: React.FC<{ children: React.ReactNode }> = ({
         totalAccounts,
         activeTokens,
         inactiveTokens,
+        isLoading,
+        error
       }}
     >
       {children}

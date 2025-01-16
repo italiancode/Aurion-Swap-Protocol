@@ -1,9 +1,9 @@
-import SwapInterface from '../../components/SwapInterface';
+import SwapInterface from "@/components/SwapInterface";
 
 export default function SwapPage() {
   return (
-    <main className="min-h-screen bg-gray-100 py-12">
+    <div className="flex justify-center items-center min-h-screen p-4">
       <SwapInterface />
-    </main>
+    </div>
   );
 } 

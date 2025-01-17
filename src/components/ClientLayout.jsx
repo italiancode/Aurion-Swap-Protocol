@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Sidebar from "./layout/Sidebar";
 import { BackgroundEffects } from "./effects/BackgroundEffects";
 import Header from "./layout/Header";
-import Footer from "./layout/Footer";
+// import Footer from "./layout/Footer";
 
 export function ClientLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

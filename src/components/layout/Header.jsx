@@ -3,32 +3,21 @@
 import { useState, useRef, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletState } from "@/hooks/useWalletState";
-import {
-  Bell,
-  Copy,
-  ExternalLink,
-  LogOut,
-  Menu,
-  Wallet,
-  X,
-  ChevronDown,
-} from "lucide-react";
+import { Menu, Wallet, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Notice } from "../ui/Notice";
+// import { Notice } from "../ui/Notice";
 import { motion, AnimatePresence } from "framer-motion";
 import { WalletMultiButtonDynamic } from "@/utils/connection/walletConnection";
 
 require("@solana/wallet-adapter-react-ui/styles.css");
 
-export default function Header({ isSidebarOpen, toggleSidebar }) {
+export default function Header({ toggleSidebar }) {
   const { publicKey, disconnect } = useWallet();
   const setGlobalPublicKey = useWalletState((state) => state.setPublicKey);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const dropdownRef = useRef(null);
   const [mounted, setMounted] = useState(false);
-  const [showToast, setShowToast] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(64); // Default height
 
   useEffect(() => {

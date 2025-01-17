@@ -6,15 +6,16 @@ import { useWalletState } from "@/hooks/useWalletState";
 import { Menu, Wallet, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-// import { Notice } from "../ui/Notice";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { WalletMultiButtonDynamic } from "@/utils/connection/walletConnection";
 
 require("@solana/wallet-adapter-react-ui/styles.css");
 
-export default function Header({ toggleSidebar }) {
+export default function Header({ isSidebarOpen, toggleSidebar }) {
   const { publicKey, disconnect } = useWallet();
   const setGlobalPublicKey = useWalletState((state) => state.setPublicKey);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const dropdownRef = useRef(null);
   const [mounted, setMounted] = useState(false);
@@ -28,6 +29,7 @@ export default function Header({ toggleSidebar }) {
     setGlobalPublicKey(publicKey);
   }, [publicKey, setGlobalPublicKey]);
 
+  // Handle clicks outside the dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -35,9 +37,15 @@ export default function Header({ toggleSidebar }) {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    // Only add the listener if the dropdown is shown
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]); // Add showDropdown to dependencies
 
   useEffect(() => {
     const calculateHeaderHeight = () => {
@@ -48,7 +56,7 @@ export default function Header({ toggleSidebar }) {
     };
 
     const handleResize = () => {
-      setHeaderHeight(calculateHeaderHeight()); // Set height based on window size
+      setHeaderHeight(calculateHeaderHeight());
     };
 
     window.addEventListener("resize", handleResize);
@@ -97,7 +105,6 @@ export default function Header({ toggleSidebar }) {
                 <NavLink className="" href="#" active>
                   Spot
                 </NavLink>
-                {/* <NavLink href="#">Perps</NavLink> */}
               </nav>
 
               <div className="relative" ref={dropdownRef}>
@@ -159,11 +166,6 @@ function MobileMenu() {
           <li className="w-full">
             <NavLink href="#" active className="block w-full">
               Spot
-            </NavLink>
-          </li>
-          <li className="w-full">
-            <NavLink href="#" className="block w-full">
-              Perps
             </NavLink>
           </li>
         </ul>

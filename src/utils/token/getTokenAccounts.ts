@@ -3,7 +3,7 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token"; // Ensure this is imported
 import { waitForWalletConnection } from "../connection/walletConnection"; // Adjust the import path as necessary
 import { getConnection } from "../connection/connection"; // Import getConnection
 import { devLog } from "../logging";
-import { withRetry } from "../retry";
+
 
 export const getTokenAccounts = async (): Promise<any[]> => {
   const publicKey = await waitForWalletConnection();

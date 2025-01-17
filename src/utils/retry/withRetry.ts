@@ -1,13 +1,12 @@
 "use strict";
 
 import { devLog } from "../logging";
-import { RequestCounter } from "../logging/requestCounter";
 
 interface RetryConfig {
-  maxAttempts: number;     // Maximum retry attempts
-  initialDelay: number;    // Initial delay in ms
-  maxDelay: number;        // Maximum delay between retries
-  backoffFactor: number;   // Exponential growth factor for delays
+  maxAttempts: number; // Maximum retry attempts
+  initialDelay: number; // Initial delay in ms
+  maxDelay: number; // Maximum delay between retries
+  backoffFactor: number; // Exponential growth factor for delays
   onError?: (error: any) => void; // Callback for handling errors
 }
 

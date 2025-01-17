@@ -1,12 +1,13 @@
 import { getTokenAccounts } from "@/utils/token/getTokenAccounts";
+import { TokenData } from "@/types/token";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface TokenContextType {
-  tokenData: any[];
+  tokenData: TokenData[];
   refreshTokenData: () => Promise<void>;
   totalAccounts: number;
-  activeTokens: any[];
-  inactiveTokens: any[];
+  activeTokens: TokenData[];
+  inactiveTokens: TokenData[];
   isLoading: boolean;
   error: Error | null;
 }
@@ -16,7 +17,7 @@ const TokenContext = createContext<TokenContextType | undefined>(undefined);
 export const TokenProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [tokenData, setTokenData] = useState<any[]>([]);
+  const [tokenData, setTokenData] = useState<TokenData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -25,11 +26,11 @@ export const TokenProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsLoading(true);
       setError(null);
       const data = await getTokenAccounts();
-      setTokenData(data || []); // Ensure we always set an array
+      setTokenData(data || []);
     } catch (error) {
       console.error("Error fetching token addresses:", error);
       setError(error instanceof Error ? error : new Error('Failed to fetch token data'));
-      setTokenData([]); // Reset to empty array on error
+      setTokenData([]);
     } finally {
       setIsLoading(false);
     }
@@ -43,13 +44,12 @@ export const TokenProvider: React.FC<{ children: React.ReactNode }> = ({
     fetchTokenData();
   }, []);
 
-  // Calculate derived values
   const totalAccounts = tokenData.length;
   const activeTokens = tokenData.filter(
-    (token) => token?.tokenAmount > 0 || token?.tokenUiAmount > 0
+    (token) => token.account.data.tokenAmount.uiAmount > 0
   );
   const inactiveTokens = tokenData.filter(
-    (token) => token?.tokenAmount === "0" && token?.tokenUiAmount === 0
+    (token) => token.account.data.tokenAmount.uiAmount === 0
   );
 
   return (

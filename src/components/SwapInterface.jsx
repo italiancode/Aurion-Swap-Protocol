@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import dynamic from "next/dynamic";
+import { getTokenMetadata } from "@/utils/tokenUtils";
 
 // Dynamically import the WalletMultiButton with no SSR
 const WalletMultiButtonDynamic = dynamic(

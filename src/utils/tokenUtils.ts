@@ -1,6 +1,7 @@
-import { Connection,PublicKey } from "@solana/web3.js";
+import { Connection, ParsedAccountData, PublicKey } from "@solana/web3.js";
 import { devLog } from "./logging";
 import { withRetry } from "./retry";
+import { useWalletState } from "../hooks/useWalletState";
 import { waitForWalletConnection } from "./connection/walletConnection";
 // import {  } from "./retry/withRetry";
 
